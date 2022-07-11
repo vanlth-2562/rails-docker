@@ -1,0 +1,24 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    # ports:
+      # - '3306:3306'
+    volumes:
+      - ./db/mysql/volumes:/var/lib/mysql
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+#dc up -d
+#docker-compose exec db bash
+#docker-compase down
+#sudo docker-compose up --build
